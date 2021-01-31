@@ -13,12 +13,10 @@ public class GameControl : MonoBehaviour
     public static GameControl control;//*
   //*************************************
     // ^^^^ This is the object that stores ALL of the players dynamic data
-    //used for upgrades etc
 
-    public int maxUses;//these are the saved player values
-    public float moveSpeed;
-    public float wateringTime;
-    public int waterAllUses;
+    //these are the saved player values
+    public float currLat;
+    public float currLong;
     public AudioMixer mixer;
 
     void Awake()//if DDOL object already exists, destroy yourself bro :)
@@ -47,10 +45,8 @@ public class GameControl : MonoBehaviour
         FileStream stream = new FileStream(path, FileMode.Create);
         GameData data = new GameData();
 
-        data.maxUses = maxUses;
-        data.moveSpeed = moveSpeed;
-        data.wateringTime = wateringTime;
-        data.waterAllUses = waterAllUses;
+        data.currLat = currLat;
+        data.currLong = currLong;
 
         formatter.Serialize(stream, data);
         stream.Close();
@@ -68,10 +64,8 @@ public class GameControl : MonoBehaviour
 
             stream.Close();
 
-            maxUses = data.maxUses;
-            moveSpeed = data.moveSpeed;
-            wateringTime = data.wateringTime;
-            waterAllUses = data.waterAllUses;
+            currLat = data.currLat;
+            currLong = data.currLong;
         }
         else
         {
@@ -82,6 +76,32 @@ public class GameControl : MonoBehaviour
     public void getLocation()//this starts the enumerator that allows the retrieval of location
     {
         StartCoroutine(EnumLocation());
+    }
+
+    public void getAnimals()
+    {
+        StartCoroutine(EnumAnimals());
+    }
+
+    private IEnumerator EnumAnimals()
+    {
+        string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
+            + "lat=" + currLat
+            + "&long=" + currLong;
+        Debug.Log("Link: " + uri);
+        using (UnityWebRequest request = UnityWebRequest.Get(uri))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.isNetworkError)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                Debug.Log(request.downloadHandler.text);
+            }
+        }
     }
 
     private IEnumerator EnumLocation()//retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
@@ -122,25 +142,9 @@ public class GameControl : MonoBehaviour
         {
             // Access granted and location value could be retrieved
             Debug.Log("[" + Time.time + "] Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
-            string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
-            + "lat=" + Input.location.lastData.latitude
-            + "&long=" + Input.location.lastData.longitude;
-            Debug.Log(uri);
-            using (UnityWebRequest request = UnityWebRequest.Get(uri))
-            {
-                yield return request.SendWebRequest();
-
-                if (request.isNetworkError)
-                {
-                    Debug.Log(request.error);
-                }
-                else
-                {
-                    Debug.Log(request.downloadHandler.text);
-                }
-            }
+            currLat = Input.location.lastData.latitude;
+            currLong = Input.location.lastData.longitude;
         }
-
         // Stop service if there is no need to query location updates continuously
         Input.location.Stop();
     }
@@ -165,8 +169,8 @@ public class GameControl : MonoBehaviour
 [Serializable]
 class GameData //THIS HOLDS RAW PLAYER DATA
 {
-    public float moveSpeed;
-    public float wateringTime;
+    public float currLat;
+    public float currLong;
     public int maxUses;
     public int waterAllUses;
 }
