@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -77,6 +78,54 @@ public class GameControl : MonoBehaviour
         }
     }
 
+    public void getLocation()//this starts the enumerator that allows the retrieval of location
+    {
+        StartCoroutine(EnumLocation());
+    }
+
+    private IEnumerator EnumLocation()//retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
+    {
+        // First, check if user has location service enabled
+        if (!Input.location.isEnabledByUser)
+        {
+            Debug.Log("enable pls");
+            yield break;
+        }
+
+        // Start service before querying location
+        Input.location.Start();
+
+        yield return new WaitForSeconds(1);//you need this wait here or it crashes bc it doesnt start fast enough
+        // Wait until service initializes
+        int maxWait = 20;
+        while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
+        {
+            yield return new WaitForSeconds(1);
+            maxWait--;
+        }
+
+        // Service didn't initialize in 20 seconds
+        if (maxWait < 1)
+        {
+            Debug.Log("Timed out");
+            yield break;
+        }
+
+        // Connection has failed
+        if (Input.location.status == LocationServiceStatus.Failed)
+        {
+            Debug.Log("Unable to determine device location");
+            yield break;
+        }
+        else
+        {
+            // Access granted and location value could be retrieved
+            Debug.Log("[" + Time.time + "] Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
+        }
+
+        // Stop service if there is no need to query location updates continuously
+        Input.location.Stop();
+    }
     public void musicVolume(float volume)
     {
         mixer.SetFloat("musicVol", volume);
