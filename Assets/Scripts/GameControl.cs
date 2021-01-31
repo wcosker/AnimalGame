@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
@@ -117,10 +118,27 @@ public class GameControl : MonoBehaviour
             Debug.Log("Unable to determine device location");
             yield break;
         }
-        else
+        else//make call and get animals
         {
             // Access granted and location value could be retrieved
             Debug.Log("[" + Time.time + "] Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
+            string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
+            + "lat=" + Input.location.lastData.latitude
+            + "&long=" + Input.location.lastData.longitude;
+            Debug.Log(uri);
+            using (UnityWebRequest request = UnityWebRequest.Get(uri))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.isNetworkError)
+                {
+                    Debug.Log(request.error);
+                }
+                else
+                {
+                    Debug.Log(request.downloadHandler.text);
+                }
+            }
         }
 
         // Stop service if there is no need to query location updates continuously

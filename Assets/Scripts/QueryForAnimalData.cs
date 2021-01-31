@@ -21,7 +21,7 @@ public class QueryForAnimalData : MonoBehaviour
         int lat = 50;
         int lng = 50;
 
-        string uri = "http://localhost:8666/api/get-animals?"
+        string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
             + "lat=" + lat  
             + "&long=" + lng;
 
