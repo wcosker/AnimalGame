@@ -6,20 +6,23 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using SimpleJSON;
+
 
 public class GameControl : MonoBehaviour
 {
-  //*************************************
-    public static GameControl control;//*
-  //*************************************
-    // ^^^^ This is the object that stores ALL of the players dynamic data
+    public static GameControl control;
 
     //these are the saved player values
-    public float currLat;
-    public float currLong;
+    public float CurrLat;
+    public float CurrLong;
     public AudioMixer mixer;
 
-    void Awake()//if DDOL object already exists, destroy yourself bro :)
+    /**
+    * if DDOL object already exists, destroy yourself bro :)
+    */
+    void Awake()
     {
         if(control == null)
         {
@@ -32,30 +35,42 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    void Start()//set up music and all player prefs etc etc
+    /**
+    * set up music and all player prefs etc etc
+    */
+    void Start()
     {
         mixer.SetFloat("musicVol", PlayerPrefs.GetFloat("musicVol", 0));
         mixer.SetFloat("fxVol", PlayerPrefs.GetFloat("fxVol", 0));
     }
 
-    public void Save()//saves player data to a file (data.swag)
+    /**
+    * saves player data to a file (data.swag)
+    */
+    public void Save()
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/data.swag";
         FileStream stream = new FileStream(path, FileMode.Create);
         GameData data = new GameData();
 
-        data.currLat = currLat;
-        data.currLong = currLong;
+        data.CurrLat = CurrLat;
+        data.CurrLong = CurrLong;
 
         formatter.Serialize(stream, data);
         stream.Close();
     }
 
-    public void Load()//loads player data from file
+
+    /**
+    * loads player data from file
+    */
+    public void Load()
     {
         string path = Application.persistentDataPath + "/data.swag";
-        if (File.Exists(path))//if file is found input data into the local DDOL "control" object
+        
+        //if file is found input data into the local DDOL "control" object
+        if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
@@ -64,8 +79,8 @@ public class GameControl : MonoBehaviour
 
             stream.Close();
 
-            currLat = data.currLat;
-            currLong = data.currLong;
+            CurrLat = data.CurrLat;
+            CurrLong = data.CurrLong;
         }
         else
         {
@@ -73,22 +88,23 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    public void getLocation()//this starts the enumerator that allows the retrieval of location
+    public void GetLocation()
     {
-        StartCoroutine(EnumLocation());
+        StartCoroutine(GetLocationCoroutine());
     }
 
-    public void getAnimals()
+    public void GetAnimals()
     {
-        StartCoroutine(EnumAnimals());
+        StartCoroutine(GetAnimalsCoroutine());
     }
 
-    private IEnumerator EnumAnimals()
+    private IEnumerator GetAnimalsCoroutine()
     {
         string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
-            + "lat=" + currLat
-            + "&long=" + currLong;
+            + "lat=" + CurrLat
+            + "&long=" + CurrLong;
         Debug.Log("Link: " + uri);
+
         using (UnityWebRequest request = UnityWebRequest.Get(uri))
         {
             yield return request.SendWebRequest();
@@ -100,11 +116,31 @@ public class GameControl : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
+                DisplayRandomAnimal(request.downloadHandler.text);
             }
         }
     }
 
-    private IEnumerator EnumLocation()//retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
+    private void DisplayRandomAnimal(string animalData)
+    {
+        var data = JSON.Parse(animalData);
+        
+        var rng = new System.Random();
+        var randomAnimal = data[rng.Next(data.Count)];
+
+        AnimalDisplay animalDisplay = (AnimalDisplay)gameObject.GetComponent("AnimalDisplay");
+        animalDisplay.CommonName.text = "Common Name: " + randomAnimal["Animal"];
+        animalDisplay.Description.text = "Description: " + randomAnimal["Wiki"]["extract"];
+        
+        // need to use a Coroutine as we must make a request to thumbnail url and set
+        // image from there.
+        StartCoroutine(animalDisplay.SetImage(randomAnimal["Wiki"]["thumbnail"]["source"]));
+    }
+
+    /**
+    * retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
+    */
+    private IEnumerator GetLocationCoroutine()
     {
         // First, check if user has location service enabled
         if (!Input.location.isEnabledByUser)
@@ -116,7 +152,9 @@ public class GameControl : MonoBehaviour
         // Start service before querying location
         Input.location.Start();
 
-        yield return new WaitForSeconds(1);//you need this wait here or it crashes bc it doesnt start fast enough
+        //you need this wait here or it crashes bc it doesnt start fast enough
+        yield return new WaitForSeconds(1);
+        
         // Wait until service initializes
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
@@ -142,12 +180,14 @@ public class GameControl : MonoBehaviour
         {
             // Access granted and location value could be retrieved
             Debug.Log("[" + Time.time + "] Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
-            currLat = Input.location.lastData.latitude;
-            currLong = Input.location.lastData.longitude;
+            CurrLat = Input.location.lastData.latitude;
+            CurrLong = Input.location.lastData.longitude;
         }
+        
         // Stop service if there is no need to query location updates continuously
         Input.location.Stop();
     }
+
     public void musicVolume(float volume)
     {
         mixer.SetFloat("musicVol", volume);
@@ -167,10 +207,8 @@ public class GameControl : MonoBehaviour
 }
 
 [Serializable]
-class GameData //THIS HOLDS RAW PLAYER DATA
+class GameData
 {
-    public float currLat;
-    public float currLong;
-    public int maxUses;
-    public int waterAllUses;
+    public float CurrLat;
+    public float CurrLong;
 }
