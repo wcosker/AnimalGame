@@ -9,17 +9,17 @@ using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
-  //*************************************
-    public static GameControl control;//*
-  //*************************************
-    // ^^^^ This is the object that stores ALL of the players dynamic data
+    public static GameControl control;
 
     //these are the saved player values
     public float currLat;
     public float currLong;
     public AudioMixer mixer;
 
-    void Awake()//if DDOL object already exists, destroy yourself bro :)
+    /**
+    * if DDOL object already exists, destroy yourself bro :)
+    */
+    void Awake()
     {
         if(control == null)
         {
@@ -32,13 +32,19 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    void Start()//set up music and all player prefs etc etc
+    /**
+    * set up music and all player prefs etc etc
+    */
+    void Start()
     {
         mixer.SetFloat("musicVol", PlayerPrefs.GetFloat("musicVol", 0));
         mixer.SetFloat("fxVol", PlayerPrefs.GetFloat("fxVol", 0));
     }
 
-    public void Save()//saves player data to a file (data.swag)
+    /**
+    * saves player data to a file (data.swag)
+    */
+    public void Save()
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/data.swag";
@@ -52,10 +58,16 @@ public class GameControl : MonoBehaviour
         stream.Close();
     }
 
-    public void Load()//loads player data from file
+
+    /**
+    * loads player data from file
+    */
+    public void Load()
     {
         string path = Application.persistentDataPath + "/data.swag";
-        if (File.Exists(path))//if file is found input data into the local DDOL "control" object
+        
+        //if file is found input data into the local DDOL "control" object
+        if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
@@ -73,7 +85,7 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    public void getLocation()//this starts the enumerator that allows the retrieval of location
+    public void getLocation()
     {
         StartCoroutine(EnumLocation());
     }
@@ -104,7 +116,10 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    private IEnumerator EnumLocation()//retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
+    /**
+    * retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
+    */
+    private IEnumerator EnumLocation()
     {
         // First, check if user has location service enabled
         if (!Input.location.isEnabledByUser)
@@ -167,7 +182,7 @@ public class GameControl : MonoBehaviour
 }
 
 [Serializable]
-class GameData //THIS HOLDS RAW PLAYER DATA
+class GameData
 {
     public float currLat;
     public float currLong;
