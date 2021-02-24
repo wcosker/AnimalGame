@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Debug/Location-basedGame 1.unity
+    guid: 041624fcf0639fd4e8333b4e5d5bfabe
   m_configObjects: {}
