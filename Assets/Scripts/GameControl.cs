@@ -14,6 +14,8 @@ public class GameControl : MonoBehaviour
 {
     public static GameControl control;
 
+    public AnimalDataHandler animalDataHandler;
+
     //these are the saved player values
     public float CurrLat;
     public float CurrLong;
@@ -42,6 +44,9 @@ public class GameControl : MonoBehaviour
     {
         mixer.SetFloat("musicVol", PlayerPrefs.GetFloat("musicVol", 0));
         mixer.SetFloat("fxVol", PlayerPrefs.GetFloat("fxVol", 0));
+
+        // populates memory with already collected animals (stored on users device)
+        animalDataHandler.LoadAnimalsIntoList();
     }
 
     /**
@@ -116,7 +121,7 @@ public class GameControl : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
-                DisplayRandomAnimal(request.downloadHandler.text);
+                animalDataHandler.BuildAnimalAndAddToList(request.downloadHandler.text);
             }
         }
     }
