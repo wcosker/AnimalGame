@@ -1483,6 +1483,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameControl
       objectReference: {fileID: 0}
+    - target: {fileID: 3232908717106110456, guid: 1468179e3e64ece47b29309b2d18f555,
+        type: 3}
+      propertyPath: animalDataHandler
+      value: 
+      objectReference: {fileID: 2122663458}
     - target: {fileID: 3232908717106110457, guid: 1468179e3e64ece47b29309b2d18f555,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1696,7 +1701,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1802046498}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2122663457}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd871c56bc97e9c449f2e3c1adc2f56f, type: 3}
@@ -1794,6 +1799,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 37.563004, y: 0, z: 0}
+--- !u!1 &2122663457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3232908717106110455, guid: 1468179e3e64ece47b29309b2d18f555,
+    type: 3}
+  m_PrefabInstance: {fileID: 1802046498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2122663458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122663457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad735ce0e4a0be4d91dbb7edcafe7f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2124389361
 GameObject:
   m_ObjectHideFlags: 0
