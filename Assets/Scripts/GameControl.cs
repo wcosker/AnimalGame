@@ -127,6 +127,7 @@ public class GameControl : MonoBehaviour
         
         var rng = new System.Random();
         var randomAnimal = data[rng.Next(data.Count)];
+        Debug.Log(randomAnimal["Animal"]);
 
         AnimalDisplay animalDisplay = (AnimalDisplay)gameObject.GetComponent("AnimalDisplay");
         animalDisplay.CommonName.text = "Common Name: " + randomAnimal["Animal"];
