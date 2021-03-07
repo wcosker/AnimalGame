@@ -98,12 +98,12 @@ public class GameControl : MonoBehaviour
         StartCoroutine(GetLocationCoroutine());
     }
 
-    public void GetAnimals()
+    public void GetAnimals(Vector3 spawnerPos)
     {
-        StartCoroutine(GetAnimalsCoroutine());
+        StartCoroutine(GetAnimalsCoroutine(spawnerPos));
     }
 
-    private IEnumerator GetAnimalsCoroutine()
+    private IEnumerator GetAnimalsCoroutine(Vector3 spawnerPos)
     {
         string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
             + "lat=" + CurrLat
@@ -121,7 +121,8 @@ public class GameControl : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
-                animalDataHandler.BuildAnimalAndAddToList(request.downloadHandler.text);
+                //animalDataHandler.BuildAnimalAndAddToList(request.downloadHandler.text);
+                animalDataHandler.generateMapAnimal(request.downloadHandler.text, spawnerPos);
             }
         }
     }

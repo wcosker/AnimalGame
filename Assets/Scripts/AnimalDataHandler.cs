@@ -9,7 +9,7 @@ using SimpleJSON;
 
 
 [Serializable]
-class Animal
+class Animal : MonoBehaviour
 {
     public string CommonName;
     public string Description;
@@ -64,6 +64,23 @@ public class AnimalDataHandler : MonoBehaviour
             Debug.Log("Description: " + animal.Description);
             Debug.Log("ImageURL: " + animal.ImageURL);
         }
+    }
+
+    public void generateMapAnimal(string animalData, Vector3 spawnerPos)
+    {
+        Debug.Log("Generating Map guy...");
+        var data = JSON.Parse(animalData);
+
+        // For now, we are just choosing a random animal
+        // in the future, this will be done by seeing which we 
+        // already have
+        var rng = new System.Random();
+        var randomAnimalData = data[rng.Next(data.Count)];
+
+        GameObject newAnimal = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        newAnimal.AddComponent<Animal>();
+        newAnimal.GetComponent<Animal>().CommonName = randomAnimalData["Animal"];
+        newAnimal.transform.position = new Vector3(spawnerPos.x+rng.Next(-5,5), spawnerPos.y, spawnerPos.z + rng.Next(-5, 5));
     }
 
     public void BuildAnimalAndAddToList(string animalData) {
