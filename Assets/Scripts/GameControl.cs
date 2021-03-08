@@ -98,16 +98,16 @@ public class GameControl : MonoBehaviour
         StartCoroutine(GetLocationCoroutine());
     }
 
-    public void GetAnimals(Vector3 spawnerPos)
+    public void GetAnimals(Vector3 spawnerPos,float lat, float longi)
     {
-        StartCoroutine(GetAnimalsCoroutine(spawnerPos));
+        StartCoroutine(GetAnimalsCoroutine(spawnerPos, lat, longi));
     }
 
-    private IEnumerator GetAnimalsCoroutine(Vector3 spawnerPos)
+    private IEnumerator GetAnimalsCoroutine(Vector3 spawnerPos, float lat, float longi)
     {
         string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
-            + "lat=" + CurrLat
-            + "&long=" + CurrLong;
+            + "lat=" + lat
+            + "&long=" + longi;
         Debug.Log("Link: " + uri);
 
         using (UnityWebRequest request = UnityWebRequest.Get(uri))
