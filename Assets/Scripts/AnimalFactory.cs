@@ -14,7 +14,8 @@ public class AnimalFactory : MonoBehaviour
     //can make it so it constantly does it but I think that's all gonna be backend?
     IEnumerator spawnAnimals()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
+        Debug.Log("Spawning animals from animal factory");
         GameControl.control.GetAnimals(transform.position);
     }
 }

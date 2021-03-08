@@ -121,26 +121,12 @@ public class GameControl : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
-                //animalDataHandler.BuildAnimalAndAddToList(request.downloadHandler.text);
-                animalDataHandler.generateMapAnimal(request.downloadHandler.text, spawnerPos);
+                animalDataHandler.BuildRandomAnimalAndDisplayOnMap(
+                    request.downloadHandler.text, 
+                    spawnerPos
+                );
             }
         }
-    }
-
-    private void DisplayRandomAnimal(string animalData)
-    {
-        var data = JSON.Parse(animalData);
-        
-        var rng = new System.Random();
-        var randomAnimal = data[rng.Next(data.Count)];
-
-        AnimalDisplay animalDisplay = (AnimalDisplay)gameObject.GetComponent("AnimalDisplay");
-        animalDisplay.CommonName.text = "Common Name: " + randomAnimal["Animal"];
-        animalDisplay.Description.text = "Description: " + randomAnimal["Wiki"]["extract"];
-        
-        // need to use a Coroutine as we must make a request to thumbnail url and set
-        // image from there.
-        StartCoroutine(animalDisplay.SetImage(randomAnimal["Wiki"]["thumbnail"]["source"]));
     }
 
     /**
