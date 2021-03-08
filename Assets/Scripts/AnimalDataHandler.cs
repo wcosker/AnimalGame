@@ -8,8 +8,13 @@ using UnityEngine.Networking;
 using SimpleJSON;
 
 
+class AnimalDisplayObject : MonoBehaviour
+{
+    public string CommonName;
+}
+
 [Serializable]
-class Animal : MonoBehaviour
+class Animal
 {
     public string CommonName;
     public string Description;
@@ -25,7 +30,6 @@ class AnimalList
         Animals = new List<Animal>();
     }
 }
-
 
 public class AnimalDataHandler : MonoBehaviour
 {
@@ -59,6 +63,8 @@ public class AnimalDataHandler : MonoBehaviour
     }
 
     public void PrintAnimalList() {
+        Debug.Log("Printing animal list...");
+
         foreach(Animal animal in animalList.Animals) {
             Debug.Log("CommonName: " + animal.CommonName);
             Debug.Log("Description: " + animal.Description);
@@ -66,28 +72,28 @@ public class AnimalDataHandler : MonoBehaviour
         }
     }
 
-    public void generateMapAnimal(string animalData, Vector3 spawnerPos)
-    {
-        Debug.Log("Generating Map guy...");
-        var data = JSON.Parse(animalData);
+    // public void GenerateMapAnimal(string animalData, Vector3 spawnerPos)
+    // {
+    //     Debug.Log("Generating Map Animal...");
+    //     var data = JSON.Parse(animalData);
 
-        // For now, we are just choosing a random animal
-        // in the future, this will be done by seeing which we 
-        // already have
-        var rng = new System.Random();
-        var randomAnimalData = data[rng.Next(data.Count)];
+    //     // For now, we are just choosing a random animal
+    //     // in the future, this will be done by seeing which we 
+    //     // already have
+    //     var rng = new System.Random();
+    //     var randomAnimalData = data[rng.Next(data.Count)];
 
-        GameObject newAnimal = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        newAnimal.AddComponent<Animal>();
-        newAnimal.GetComponent<Animal>().CommonName = randomAnimalData["Animal"];
-        newAnimal.transform.position = new Vector3(spawnerPos.x+rng.Next(-5,5), spawnerPos.y, spawnerPos.z + rng.Next(-5, 5));
+    //     GameObject newAnimal = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    //     newAnimal.AddComponent<AnimalDisplayObject>();
+    //     newAnimal.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Animal"];
+    //     newAnimal.transform.position = new Vector3(spawnerPos.x+rng.Next(-5,5), spawnerPos.y, spawnerPos.z + rng.Next(-5, 5));
+    // }
+
+    public void BuildRandomAnimalAndDisplayOnMap(string animalData, Vector3 spawnerPos) {
+        StartCoroutine(BuildRandomAnimalAndDisplayOnMapCoroutine(animalData, spawnerPos));
     }
 
-    public void BuildAnimalAndAddToList(string animalData) {
-        StartCoroutine(BuildAnimalAndAddToListCoroutine(animalData));
-    }
-
-    private IEnumerator BuildAnimalAndAddToListCoroutine(string animalData) {
+    private IEnumerator BuildRandomAnimalAndDisplayOnMapCoroutine(string animalData, Vector3 spawnerPos) {
         var data = JSON.Parse(animalData);
         
         // For now, we are just choosing a random animal
@@ -123,6 +129,12 @@ public class AnimalDataHandler : MonoBehaviour
                 // get necessary data from json
                 animal.Description = wikiData["query"]["pages"][pageId]["extract"];
                 animal.ImageURL = wikiData["query"]["pages"][pageId]["thumbnail"]["source"];
+
+                // spawn display animal
+                GameObject animalDisplayObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                animalDisplayObject.AddComponent<AnimalDisplayObject>();
+                animalDisplayObject.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Animal"];
+                animalDisplayObject.transform.position = new Vector3(spawnerPos.x+rng.Next(-5,5), spawnerPos.y, spawnerPos.z + rng.Next(-5, 5));
 
                 // Now that we have all of the data, we are going to add to list and save
                 // to the device.
