@@ -14,7 +14,7 @@ class AnimalDisplayObject : MonoBehaviour
 }
 
 [Serializable]
-class Animal
+public class Animal
 {
     public string CommonName;
     public string Description;
@@ -22,7 +22,7 @@ class Animal
 }
 
 [Serializable]
-class AnimalList
+public class AnimalList
 {
     public List<Animal> Animals;
 
@@ -33,7 +33,7 @@ class AnimalList
 
 public class AnimalDataHandler : MonoBehaviour
 {
-    private AnimalList animalList = new AnimalList();
+    public AnimalList animalList = new AnimalList();
 
     public void SaveAnimalList() {
         Debug.Log("Saving!");
@@ -103,7 +103,7 @@ public class AnimalDataHandler : MonoBehaviour
         var randomAnimalData = data[rng.Next(data.Count)];
         
         Animal animal = new Animal();
-        animal.CommonName = randomAnimalData["Animal"];
+        animal.CommonName = randomAnimalData["Common_Name"];
 
         // In order to get the more detailed data, we are going to make a 
         // request to the Wikipedia API.
