@@ -37,7 +37,7 @@ public class AnimalDataHandler : MonoBehaviour
 
     public void SaveAnimalList() {
         Debug.Log("Saving!");
-        PrintAnimalList();
+        // PrintAnimalList();
         
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/AnimalData.dat");
@@ -58,7 +58,7 @@ public class AnimalDataHandler : MonoBehaviour
             animalList = (AnimalList)binaryFormatter.Deserialize(fileStream);
             fileStream.Close();
 
-            PrintAnimalList();
+            // PrintAnimalList();
         }
     }
 
@@ -72,38 +72,24 @@ public class AnimalDataHandler : MonoBehaviour
         }
     }
 
-    // public void GenerateMapAnimal(string animalData, Vector3 spawnerPos)
-    // {
-    //     Debug.Log("Generating Map Animal...");
-    //     var data = JSON.Parse(animalData);
-
-    //     // For now, we are just choosing a random animal
-    //     // in the future, this will be done by seeing which we 
-    //     // already have
-    //     var rng = new System.Random();
-    //     var randomAnimalData = data[rng.Next(data.Count)];
-
-    //     GameObject newAnimal = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    //     newAnimal.AddComponent<AnimalDisplayObject>();
-    //     newAnimal.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Animal"];
-    //     newAnimal.transform.position = new Vector3(spawnerPos.x+rng.Next(-5,5), spawnerPos.y, spawnerPos.z + rng.Next(-5, 5));
-    // }
-
-    public void BuildRandomAnimalAndDisplayOnMap(string animalData, Vector3 spawnerPos) {
-        StartCoroutine(BuildRandomAnimalAndDisplayOnMapCoroutine(animalData, spawnerPos));
+    public void SpawnAnimalAtPosition(string animalData) {
+        StartCoroutine(SpawnAnimalAtPositionCoroutine(animalData));
     }
 
-    private IEnumerator BuildRandomAnimalAndDisplayOnMapCoroutine(string animalData, Vector3 spawnerPos) {
-        var data = JSON.Parse(animalData);
+    private IEnumerator SpawnAnimalAtPositionCoroutine(string animalData) {
+        var data = JSON.Parse(animalData)[0];
+
+        var spawnerLat = data["coordinates"][0];
+        var spawnerLong = data["coordinates"][1];
         
-        // For now, we are just choosing a random animal
-        // in the future, this will be done by seeing which we 
-        // already have
+        // pick a random animal from the spawner to spawn
         var rng = new System.Random();
-        var randomAnimalData = data[rng.Next(data.Count)];
+        var randomAnimalData = data["Animals"][rng.Next(data.Count)];
         
         Animal animal = new Animal();
         animal.CommonName = randomAnimalData["Common_Name"];
+
+        Debug.Log("Animal Selected: " + animal.CommonName);
 
         // In order to get the more detailed data, we are going to make a 
         // request to the Wikipedia API.
@@ -134,7 +120,7 @@ public class AnimalDataHandler : MonoBehaviour
                 GameObject animalDisplayObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 animalDisplayObject.AddComponent<AnimalDisplayObject>();
                 animalDisplayObject.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Animal"];
-                animalDisplayObject.transform.position = new Vector3(spawnerPos.x+rng.Next(-5,5), spawnerPos.y, spawnerPos.z + rng.Next(-5, 5));
+                animalDisplayObject.transform.position = new Vector3(spawnerLat, 10, spawnerLong);
 
                 // Now that we have all of the data, we are going to add to list and save
                 // to the device.
@@ -143,5 +129,4 @@ public class AnimalDataHandler : MonoBehaviour
             }
         }
     }
-
 }

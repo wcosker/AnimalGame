@@ -98,17 +98,21 @@ public class GameControl : MonoBehaviour
         StartCoroutine(GetLocationCoroutine());
     }
 
-    public void GetAnimals(Vector3 spawnerPos,float lat, float longi)
+    /**
+     * We query the server for a spawner. The server will return either a new spawner that it created at
+     * at this given position, or will return a nearby spawner. In addition, it will have all of the
+     * animals that are present currently at that spawner. 
+     */
+    public void SpawnAnimals(float latitude, float longitude)
     {
-        StartCoroutine(GetAnimalsCoroutine(spawnerPos, lat, longi));
+        StartCoroutine(SpawnAnimalsCoroutine(latitude, longitude));
     }
 
-    private IEnumerator GetAnimalsCoroutine(Vector3 spawnerPos, float lat, float longi)
+    private IEnumerator SpawnAnimalsCoroutine(float latitude, float longitude)
     {
-        string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
-            + "lat=" + lat
-            + "&long=" + longi;
-        Debug.Log("Link: " + uri);
+        string uri = "https://senior-project-backend-server.herokuapp.com/api/get-spawn?"
+            + "lat=" + latitude
+            + "&long=" + longitude;
 
         using (UnityWebRequest request = UnityWebRequest.Get(uri))
         {
@@ -121,13 +125,43 @@ public class GameControl : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
-                animalDataHandler.BuildRandomAnimalAndDisplayOnMap(
-                    request.downloadHandler.text, 
-                    spawnerPos
-                );
+                animalDataHandler.SpawnAnimalAtPosition(request.downloadHandler.text);
             }
         }
     }
+
+
+
+    // public void GetAnimals(Vector3 spawnerPos,float lat, float longi)
+    // {
+    //     StartCoroutine(GetAnimalsCoroutine(spawnerPos, lat, longi));
+    // }
+
+    // private IEnumerator GetAnimalsCoroutine(Vector3 spawnerPos, float lat, float longi)
+    // {
+    //     string uri = "https://senior-project-backend-server.herokuapp.com/api/get-animals?"
+    //         + "lat=" + lat
+    //         + "&long=" + longi;
+    //     Debug.Log("Link: " + uri);
+
+    //     using (UnityWebRequest request = UnityWebRequest.Get(uri))
+    //     {
+    //         yield return request.SendWebRequest();
+
+    //         if (request.isNetworkError)
+    //         {
+    //             Debug.Log(request.error);
+    //         }
+    //         else
+    //         {
+    //             Debug.Log(request.downloadHandler.text);
+    //             animalDataHandler.BuildRandomAnimalAndDisplayOnMap(
+    //                 request.downloadHandler.text, 
+    //                 spawnerPos
+    //             );
+    //         }
+    //     }
+    // }
 
     /**
     * retrieves user latitude and longitude and prints it, lots of functionality can be easily added here
