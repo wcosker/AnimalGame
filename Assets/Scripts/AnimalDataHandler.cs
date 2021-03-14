@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
+using Mapbox.Unity.Map;
+using Mapbox.Utils;
 
 
 class AnimalDisplayObject : MonoBehaviour
@@ -34,6 +36,7 @@ public class AnimalList
 public class AnimalDataHandler : MonoBehaviour
 {
     public AnimalList animalList = new AnimalList();
+    private AbstractMap map;
 
     public void SaveAnimalList() {
         Debug.Log("Saving!");
@@ -79,12 +82,9 @@ public class AnimalDataHandler : MonoBehaviour
     private IEnumerator SpawnAnimalAtPositionCoroutine(string animalData) {
         var data = JSON.Parse(animalData)[0];
 
-        var spawnerLat = data["coordinates"][0];
-        var spawnerLong = data["coordinates"][1];
-        
         // pick a random animal from the spawner to spawn
         var rng = new System.Random();
-        var randomAnimalData = data["Animals"][rng.Next(data.Count)];
+        var randomAnimalData = data["Animals"][rng.Next(data["Animals"].Count)];
         
         Animal animal = new Animal();
         animal.CommonName = randomAnimalData["Common_Name"];
@@ -117,15 +117,25 @@ public class AnimalDataHandler : MonoBehaviour
                 animal.ImageURL = wikiData["query"]["pages"][pageId]["thumbnail"]["source"];
 
                 // spawn display animal
+                map = FindObjectOfType<AbstractMap>();
+
+                // need to flip because unity expects LatLong
+                Vector2d spawnerLatLong = new Vector2d(data["coordinates"][1], data["coordinates"][0]);
+
                 GameObject animalDisplayObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 animalDisplayObject.AddComponent<AnimalDisplayObject>();
-                animalDisplayObject.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Animal"];
-                animalDisplayObject.transform.position = new Vector3(spawnerLat, 10, spawnerLong);
+                animalDisplayObject.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Common_Name"];
+                
+                Vector3 spawnerLocalPosition = map.GeoToWorldPosition(spawnerLatLong);
+                Debug.Log("SPAWNER LOCAL " + spawnerLocalPosition);
+                animalDisplayObject.transform.position = spawnerLocalPosition;
 
+                // NOTE: we used to add to the list here, but Adam is going to make it so that when you press the sphere
+                // it will be added the list
                 // Now that we have all of the data, we are going to add to list and save
                 // to the device.
-                this.animalList.Animals.Add(animal);
-                SaveAnimalList();
+                // this.animalList.Animals.Add(animal);
+                // SaveAnimalList();
             }
         }
     }

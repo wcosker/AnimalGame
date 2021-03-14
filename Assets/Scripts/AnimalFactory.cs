@@ -15,21 +15,16 @@ public class AnimalFactory : MonoBehaviour
         StartCoroutine("SpawnAnimals");
     }
 
-    //spawns animals as sphere on board
-    //can make it so it constantly does it but I think that's all gonna be backend?
-    // IEnumerator spawnAnimals()
-    // {
-    //     yield return new WaitForSeconds(10);
-    //     Vector2d latlong = map.WorldToGeoPosition(transform.position);
-    //     GameControl.control.GetAnimals(transform.position, (float)latlong.x, (float)latlong.y);
-    // }
-
     private IEnumerator SpawnAnimals()
     {
-        yield return new WaitForSeconds(5);
-        Vector2d playerLatAndLong = map.WorldToGeoPosition(transform.position);
-        GameControl.control.SpawnAnimals((float)playerLatAndLong.x, (float)playerLatAndLong.y);
+        // wait until map loads
+        yield return new WaitForSeconds(10);
+
+        // will repeat every 30s to gen new animals
+        while (true) {
+            Vector2d playerLongAndLat = map.WorldToGeoPosition(transform.position);
+            GameControl.control.SpawnAnimals((float)playerLongAndLat.y, (float)playerLongAndLat.x);
+            yield return new WaitForSeconds(30);
+        }
     }
-
-
 }
