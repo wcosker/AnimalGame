@@ -549,42 +549,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &961403928 stripped
+--- !u!1 &955729235 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1094528686802348, guid: 35ce2bb4caba9434db5e656796b632b1,
+  m_CorrespondingSourceObject: {fileID: 1065618987163410, guid: 35ce2bb4caba9434db5e656796b632b1,
     type: 3}
   m_PrefabInstance: {fileID: 1022595812}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &961403929 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114105500206378512, guid: 35ce2bb4caba9434db5e656796b632b1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1022595812}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 961403928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd961b1c9541a4cee99686069ecce852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &961403930
+--- !u!114 &955729236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 961403928}
+  m_GameObject: {fileID: 955729235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcf32ea2cc0514b569329f6b6b68f9b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fc8a5228c08ac941bba4b0eb7925629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _map: {fileID: 961403929}
-  _locationStrings:
-  - 29.6567274,-82.3441238
-  _spawnScale: 1
-  _markerPrefab: {fileID: 1064074361305596, guid: 748e2c1db1257594bb438fbb7bd185f0,
-    type: 3}
 --- !u!1001 &1022595812
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1086,6 +1068,11 @@ PrefabInstance:
       propertyPath: _editorDebuggingOnly._locationLogFile
       value: 
       objectReference: {fileID: 4900000, guid: 5e6bb7224cef35c4788a4817b1c9778d, type: 3}
+    - target: {fileID: 114668955501623132, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: _useTransformLocationProvider
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114811608996724456, guid: 35ce2bb4caba9434db5e656796b632b1,
         type: 3}
       propertyPath: _editorDebuggingOnly._mockUnityInputLocation
@@ -1863,6 +1850,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad735ce0e4a0be4d91dbb7edcafe7f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animalList:
+    Animals: []
 --- !u!1 &2124389361
 GameObject:
   m_ObjectHideFlags: 0
