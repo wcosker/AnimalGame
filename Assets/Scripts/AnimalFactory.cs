@@ -7,19 +7,24 @@ using Mapbox.Utils;
 public class AnimalFactory : MonoBehaviour
 {
     private AbstractMap map;
+
     // Start is called before the first frame update
     void Start()
     {
         map = FindObjectOfType<AbstractMap>();
-        StartCoroutine("spawnAnimals");
+        StartCoroutine("SpawnAnimals");
     }
 
-    //spawns animals as sphere on board
-    //can make it so it constantly does it but I think that's all gonna be backend?
-    IEnumerator spawnAnimals()
+    private IEnumerator SpawnAnimals()
     {
+        // wait until map loads
         yield return new WaitForSeconds(10);
-        Vector2d latlong = map.WorldToGeoPosition(transform.position);
-        GameControl.control.GetAnimals(transform.position, (float)latlong.x, (float)latlong.y);
+
+        // will repeat every 30s to gen new animals
+        while (true) {
+            Vector2d playerLongAndLat = map.WorldToGeoPosition(transform.position);
+            GameControl.control.SpawnAnimals((float)playerLongAndLat.y, (float)playerLongAndLat.x);
+            yield return new WaitForSeconds(30);
+        }
     }
 }
