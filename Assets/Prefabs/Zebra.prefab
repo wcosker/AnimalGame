@@ -842,6 +842,7 @@ GameObject:
   - component: {fileID: 4283803685882370905}
   - component: {fileID: 4283803685882370906}
   - component: {fileID: 4398052316026340280}
+  - component: {fileID: 3874182442824500276}
   m_Layer: 0
   m_Name: Zebra
   m_TagString: Untagged
@@ -857,7 +858,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4013350555111922852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.54, y: -2.3, z: -2.11}
+  m_LocalPosition: {x: -4.8385563, y: 1, z: -9.8954315}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4632318279372478080}
@@ -910,6 +911,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 8.047785, z: 7.538317}
   m_Center: {x: 0.0000029835676, y: 3.5238914, z: -0.54356456}
+--- !u!114 &3874182442824500276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013350555111922852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2d296a1e7128144b751d2b2966dafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  part: {fileID: 1746836673579904068, guid: 8a730f24a7c58374690b25cd864679b2, type: 3}
+  CommonName: Blue-Winged Teal
+  animal:
+    CommonName: Blue-Winged Teal
+    Description: The blue-winged teal (Spatula discors) is a species of bird in the
+      duck, goose, and swan family Anatidae. One of the smaller members of the dabbling
+      duck group, it occurs in North America, where it breeds from southern Alaska
+      to Nova Scotia, and south to northern Texas. It winters along the Pacific and
+      Atlantic coasts and south into the Caribbean islands and Central America.
+    ImageURL: https://upload.wikimedia.org/wikipedia/commons/6/65/Blue-Winged_Teal.jpg
+  animalDataHandler: {fileID: 0}
+  animalList:
+    Animals: []
 --- !u!1 &4048548336199475177
 GameObject:
   m_ObjectHideFlags: 0

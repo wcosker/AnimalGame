@@ -10,7 +10,7 @@ using Mapbox.Unity.Map;
 using Mapbox.Utils;
 
 
-class AnimalDisplayObject : MonoBehaviour
+/*class AnimalDisplayObject : MonoBehaviour
 {
     public string CommonName;
     public Animal animal;
@@ -32,7 +32,7 @@ class AnimalDisplayObject : MonoBehaviour
         animalDataHandler.SaveAnimalList();
         Destroy(this.gameObject);
     }
-}
+}*/
 
 [Serializable]
 public class Animal
@@ -142,8 +142,9 @@ public class AnimalDataHandler : MonoBehaviour
 
                 // need to flip because unity expects LatLong
                 Vector2d spawnerLatLong = new Vector2d(data["coordinates"][1], data["coordinates"][0]);
+
                 GameObject newGuy = zebra;
-                newGuy.AddComponent<AnimalDisplayObject>();
+                
                 newGuy.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Common_Name"];
                 newGuy.GetComponent<AnimalDisplayObject>().animal = animal;
                 

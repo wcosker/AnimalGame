@@ -19,7 +19,7 @@ public class AnimalMovement : MonoBehaviour
     void getNewMovePos()
     {
         //randomizes a new  Vector3 in specific range
-        moveTowards = new Vector3(init.x+Random.Range(-15f,5f),transform.position.y,init.z+Random.Range(0f,25f));
+        moveTowards = new Vector3(init.x+Random.Range(-5f,20f),transform.position.y,init.z+Random.Range(0f,25f));
     }
 
     // Update is called once per frame
@@ -30,14 +30,13 @@ public class AnimalMovement : MonoBehaviour
         {
             Debug.DrawLine(transform.position, moveTowards);
             //start rotating towards new position and moving towards, based on time deltaTime
-            transform.position = Vector3.MoveTowards(transform.position,moveTowards,Time.deltaTime*1.2f);
-            Vector3 newRot = Vector3.RotateTowards(transform.forward,moveTowards,Time.deltaTime*0.9f,0);
+            transform.position = Vector3.MoveTowards(transform.position,moveTowards,Time.deltaTime*1.9f);
+            Vector3 newRot = Vector3.RotateTowards(transform.forward,moveTowards,Time.deltaTime*1.3f,0);
             transform.rotation = Quaternion.LookRotation(newRot);
             
 
             //begin animation
             animator.SetBool("isWalking",true);
-
         }
         else animator.SetBool("isWalking",false);
     }
