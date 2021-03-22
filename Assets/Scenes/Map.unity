@@ -708,7 +708,7 @@ PrefabInstance:
     - target: {fileID: 114105500206378512, guid: 35ce2bb4caba9434db5e656796b632b1,
         type: 3}
       propertyPath: _imagery._layerProperty.sourceOptions.layerSource.Id
-      value: mapbox://styles/wcosker/ckkyc3aa84xtg17o4yskclj6z
+      value: mapbox://styles/wcosker/ckl9xdfba1d6t18qh28jxt06h
       objectReference: {fileID: 0}
     - target: {fileID: 114105500206378512, guid: 35ce2bb4caba9434db5e656796b632b1,
         type: 3}
