@@ -54,6 +54,7 @@ public class AnimalList
 
 public class AnimalDataHandler : MonoBehaviour
 {
+    public GameObject zebra;
     public AnimalList animalList = new AnimalList();
     private AbstractMap map;
 
@@ -141,15 +142,16 @@ public class AnimalDataHandler : MonoBehaviour
 
                 // need to flip because unity expects LatLong
                 Vector2d spawnerLatLong = new Vector2d(data["coordinates"][1], data["coordinates"][0]);
-
-                GameObject animalDisplayObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                animalDisplayObject.AddComponent<AnimalDisplayObject>();
-                animalDisplayObject.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Common_Name"];
-                animalDisplayObject.GetComponent<AnimalDisplayObject>().animal = animal;
+                GameObject newGuy = zebra;
+                newGuy.AddComponent<AnimalDisplayObject>();
+                newGuy.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Common_Name"];
+                newGuy.GetComponent<AnimalDisplayObject>().animal = animal;
                 
                 Vector3 spawnerLocalPosition = map.GeoToWorldPosition(spawnerLatLong);
+                spawnerLocalPosition = new Vector3(spawnerLocalPosition.x - 6, spawnerLocalPosition.y, spawnerLocalPosition.z - 2);
                 Debug.Log("SPAWNER LOCAL " + spawnerLocalPosition);
-                animalDisplayObject.transform.position = spawnerLocalPosition;
+                newGuy.transform.position = new Vector3(spawnerLocalPosition.x,spawnerLocalPosition.y+1,spawnerLocalPosition.z);
+                Instantiate(newGuy);
 
                 // NOTE: we used to add to the list here, but Adam is going to make it so that when you press the sphere
                 // it will be added the list

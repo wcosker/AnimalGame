@@ -1850,6 +1850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad735ce0e4a0be4d91dbb7edcafe7f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zebra: {fileID: 4013350555111922852, guid: 854723e77b27f7b46b111ec86ffe836c, type: 3}
   animalList:
     Animals: []
 --- !u!1 &2124389361
