@@ -13,6 +13,25 @@ using Mapbox.Utils;
 class AnimalDisplayObject : MonoBehaviour
 {
     public string CommonName;
+    public Animal animal;
+    
+    public AnimalDataHandler animalDataHandler;
+    public AnimalList animalList;
+
+    void Start()
+    {
+        animalDataHandler = GameObject.Find("GameControl").GetComponent<AnimalDataHandler>();
+        animalDataHandler.PrintAnimalList();
+        animalList = animalDataHandler.animalList;
+    }
+
+    void OnMouseDown()
+    {
+        Debug.Log(CommonName + " has been caught and added to Encyclopedia!");
+        animalList.Animals.Add(animal);
+        animalDataHandler.SaveAnimalList();
+        Destroy(this.gameObject);
+    }
 }
 
 [Serializable]
@@ -40,7 +59,7 @@ public class AnimalDataHandler : MonoBehaviour
 
     public void SaveAnimalList() {
         Debug.Log("Saving!");
-        // PrintAnimalList();
+        PrintAnimalList();
         
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/AnimalData.dat");
@@ -67,6 +86,7 @@ public class AnimalDataHandler : MonoBehaviour
 
     public void PrintAnimalList() {
         Debug.Log("Printing animal list...");
+        Debug.Log("Animal List Size: " + animalList.Animals.Count);
 
         foreach(Animal animal in animalList.Animals) {
             Debug.Log("CommonName: " + animal.CommonName);
@@ -125,6 +145,7 @@ public class AnimalDataHandler : MonoBehaviour
                 GameObject animalDisplayObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 animalDisplayObject.AddComponent<AnimalDisplayObject>();
                 animalDisplayObject.GetComponent<AnimalDisplayObject>().CommonName = randomAnimalData["Common_Name"];
+                animalDisplayObject.GetComponent<AnimalDisplayObject>().animal = animal;
                 
                 Vector3 spawnerLocalPosition = map.GeoToWorldPosition(spawnerLatLong);
                 Debug.Log("SPAWNER LOCAL " + spawnerLocalPosition);
