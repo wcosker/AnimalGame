@@ -858,7 +858,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4013350555111922852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.8385563, y: 1, z: -9.8954315}
+  m_LocalPosition: {x: -397.57758, y: 1, z: -675.7513}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4632318279372478080}
@@ -924,15 +924,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   part: {fileID: 1746836673579904068, guid: 8a730f24a7c58374690b25cd864679b2, type: 3}
-  CommonName: Blue-Winged Teal
+  CommonName: Common Goldeneye
   animal:
-    CommonName: Blue-Winged Teal
-    Description: The blue-winged teal (Spatula discors) is a species of bird in the
-      duck, goose, and swan family Anatidae. One of the smaller members of the dabbling
-      duck group, it occurs in North America, where it breeds from southern Alaska
-      to Nova Scotia, and south to northern Texas. It winters along the Pacific and
-      Atlantic coasts and south into the Caribbean islands and Central America.
-    ImageURL: https://upload.wikimedia.org/wikipedia/commons/6/65/Blue-Winged_Teal.jpg
+    CommonName: Common Goldeneye
+    Description: The common goldeneye (Bucephala clangula) is a medium-sized sea
+      duck of the genus Bucephala, the goldeneyes. Its closest relative is the similar
+      Barrow's goldeneye. The genus name is derived from the Ancient Greek boukephalos
+      ("bullheaded", from bous, "bull " and kephale, "head"), a reference to the
+      bulbous head shape of the bufflehead. The species name is derived from the
+      Latin clangere ("to resound").Common goldeneyes are aggressive and territorial
+      ducks, and have elaborate courtship displays.
+    ImageURL: https://upload.wikimedia.org/wikipedia/commons/3/34/Common_Goldeneye_%28Bucephala_clangula%29.jpg
   animalDataHandler: {fileID: 0}
   animalList:
     Animals: []
