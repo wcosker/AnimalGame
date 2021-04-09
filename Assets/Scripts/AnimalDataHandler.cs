@@ -151,7 +151,7 @@ public class AnimalDataHandler : MonoBehaviour
                 Vector3 spawnerLocalPosition = map.GeoToWorldPosition(spawnerLatLong);
                 spawnerLocalPosition = new Vector3(spawnerLocalPosition.x - 6, spawnerLocalPosition.y, spawnerLocalPosition.z - 2);
                 Debug.Log("SPAWNER LOCAL " + spawnerLocalPosition);
-                newGuy.transform.position = new Vector3(spawnerLocalPosition.x,spawnerLocalPosition.y+1,spawnerLocalPosition.z);
+                newGuy.transform.position = new Vector3(spawnerLocalPosition.x,spawnerLocalPosition.y+4,spawnerLocalPosition.z);
                 Instantiate(newGuy);
 
                 // NOTE: we used to add to the list here, but Adam is going to make it so that when you press the sphere
