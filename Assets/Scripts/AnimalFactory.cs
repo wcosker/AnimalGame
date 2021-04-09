@@ -12,7 +12,7 @@ public class AnimalFactory : MonoBehaviour
     void Start()
     {
         map = FindObjectOfType<AbstractMap>();
-        StartCoroutine("SpawnAnimals");
+        // StartCoroutine("SpawnAnimals");
     }
 
     private IEnumerator SpawnAnimals()

@@ -163,4 +163,19 @@ public class AnimalDataHandler : MonoBehaviour
             }
         }
     }
+
+    public void SpawnDemoAnimal()
+    {
+        Animal animal = new Animal();
+        animal.CommonName = "Mottled duck";
+        animal.Description = "The mottled duck (Anas fulvigula) or mottled mallard is a medium-sized dabbling duck. It is intermediate in appearance between the female mallard and the American black duck. It is closely related to those species, and is sometimes considered a subspecies of the former, but this is inappropriate (see Systematics below).\nThere are two distinct subspecies of the mottled duck. One subspecies, the Gulf Coast mottled duck (A. f. maculosa), lives on the Gulf of Mexico coast between Alabama and Tamaulipas (Mexico); outside the breeding season, individual birds may venture as far south as Veracruz. The other, the Florida mottled duck (A. f. fulvigula), is resident in central and southern Florida and occasionally strays north to Georgia. The same disjunct distribution pattern was also historically found in the local sandhill cranes. Individuals of both subspecies were introduced into South Carolina in the 1970s and 1980s, where the birds of mixed ancestry have greatly expanded in range, extending through the Atlantic coastal plain of Georgia into northeastern Florida.Along the Gulf of Mexico coast, the mottled duck is one of the most frequently banded waterfowl. This is due in part to the fact that it is mostly non-migratory. Approximately one out of every 20 mottled ducks is banded, making it an extremely prized and sought after bird among hunters.";
+        animal.ImageURL = "https://upload.wikimedia.org/wikipedia/commons/1/1e/Florida_Mottled_Ducks.jpg";
+
+        GameObject newGuy = zebra;
+        newGuy.GetComponent<AnimalDisplayObject>().CommonName =  "Mottled duck";
+        newGuy.GetComponent<AnimalDisplayObject>().animal = animal;
+
+        newGuy.transform.position = new Vector3(UnityEngine.Random.Range(-25.0f, 20.0f), 5 ,UnityEngine.Random.Range(20, 80));
+        Instantiate(newGuy);
+    }
 }
